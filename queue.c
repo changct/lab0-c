@@ -7,15 +7,32 @@
 /* Create an empty queue */
 struct list_head *q_new()
 {
-    return NULL;
+    struct list_head *tmp = new list_head();
+    tmp->prev = tmp;
+    tmp->next = tmp;
+    return tmp;
 }
 
 /* Free all storage used by queue */
-void q_free(struct list_head *head) {}
+void q_free(struct list_head *head) {
+    struct list_head *tmp = head;
+    struct list_head *pr = head;
+    while(tmp->next != NULL){
+        tmp = tmp -> next;
+        list_del(pr);
+        pr = tmp;
+    } 
+    list_del(tmp);
+}
 
 /* Insert an element at head of queue */
 bool q_insert_head(struct list_head *head, char *s)
 {
+    element_t *tmp = new element_t();
+    struct list_head* old = head;
+    tmp->list.next = old;
+    old->prev = tmp->list;
+    head = tmp->list;
     return true;
 }
 
